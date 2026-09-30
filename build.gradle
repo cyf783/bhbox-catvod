@@ -57,4 +57,11 @@ afterEvaluate {
             }
         }
     }
+
+    // JitPack 默认执行 `gradlew install` 来发布产物，但 maven-publish 插件不提供
+    // install 任务（那是旧 maven 插件的）。这里把 install 委托给 publishToMavenLocal，
+    // 让 JitPack 能把 AAR/POM 发布到本地仓库（~/.m2）并成功找到产物。
+    tasks.register('install') {
+        dependsOn 'publishToMavenLocal'
+    }
 }
