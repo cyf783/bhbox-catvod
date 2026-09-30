@@ -60,15 +60,20 @@ android {
     }
 }
 
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
 dependencies {
     // 核心插件库（提供接口和工具类），运行时由宿主 dex 提供，仅需编译期依赖
     compileOnly 'com.github.cyf783:bhbox-catvod:1.0.0'
     api fileTree(dir: "libs", include: ['*.jar', '*.aar'])
 }
 ```
-
-> `catvod` 库提供插件接口（`IPlugin`、`IServicePlugin`、`ISpiderPlugin`、`IPlayerPlugin`、`IExtractorPlugin`、`IRuntimePlugin`）、`PlayerFactory`、配置读取桥接 `com.github.catvod.utils.Plugin`、参数 bean（`ApkParam`、`ApkPluginBean`、`UrlBean`）及工具类（`Path`、`Shell`、`LOG`、`Io`、`Util`）。
-> 运行时 catvod 类由宿主 dex 提供（parent-first 委托），因此以 `compileOnly` 引入即可，无需打包进插件。依赖坐标发布在 JitPack，独立插件工程需自行添加 `maven { url 'https://jitpack.io' }` 仓库（BHBox 宿主工程已内置）。
 
 ***
 

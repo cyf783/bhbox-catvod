@@ -38,14 +38,23 @@ com.github.catvod
 宿主已移除内置 catvod 模块，统一使用 Maven 坐标（JitPack）：
 
 ```gradle
-// 宿主 App：运行时提供实现
-implementation 'com.github.cyf783:bhbox-catvod:1.0.0'
+// settings.gradle 或 build.gradle 的 dependencyResolutionManagement 中补充 JitPack 仓库
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
 
-// 插件项目：仅编译期依赖，运行时由宿主 dex 提供
-compileOnly 'com.github.cyf783:bhbox-catvod:1.0.0'
+dependencies {
+    // 宿主 App：运行时提供实现
+    implementation 'com.github.cyf783:bhbox-catvod:1.0.0'
+
+    // 插件项目：仅编译期依赖，运行时由宿主 dex 提供
+    compileOnly 'com.github.cyf783:bhbox-catvod:1.0.0'
+}
 ```
-
-独立插件工程需添加 JitPack 仓库：`maven { url 'https://jitpack.io' }`。
 
 ## 混淆
 
