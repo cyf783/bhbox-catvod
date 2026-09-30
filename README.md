@@ -1,6 +1,6 @@
 # BHBox CatVod
 
-BHBox（宝盒）插件系统的核心库。宿主 App 与所有插件（plugin-*）共享此库：它定义了插件接口体系、爬虫基类 `Spider`、通用网络层和工具类。运行时 catvod 类由宿主 dex 提供（parent-first 委托），插件中依赖本库即可，无需重复打包。
+BHBox（宝盒）插件系统的核心库。宿主 App 与所有插件（plugin-\*）共享此库：它定义了插件接口体系、爬虫基类 `Spider`、通用网络层和工具类。运行时 catvod 类由宿主 dex 提供（parent-first 委托），插件中依赖本库即可，无需重复打包。
 
 ## 模块内容
 
@@ -35,7 +35,7 @@ com.github.catvod
 
 ## 引入方式
 
-宿主已移除内置 catvod 模块，统一使用 Maven 坐标（JitPack）：
+&#x20;Maven 坐标（JitPack）：
 
 ```gradle
 // settings.gradle 或 build.gradle 的 dependencyResolutionManagement 中补充 JitPack 仓库
@@ -63,8 +63,7 @@ dependencies {
 ## 构建
 
 ```bash
-./gradlew assembleRelease          # 需要 JDK 17
-./gradlew publishToMavenLocal      # 发布到本地 Maven（com.github.cyf783:bhbox-catvod:1.0.0）
+./gradlew assembleRelease
 ```
 
 ## 插件开发
@@ -75,5 +74,6 @@ dependencies {
 - `plugin.json` 全字段说明与参数配置（params）表单体系
 - 插件生命周期（安装 → 兼容性判断 → 加载 → install() → init() → start/stop → uninstall）
 - 运行时读取用户配置（`Plugin.getPluginBeanById` / `getRuntimePluginById`）
-- 构建命令（`./gradlew :goproxy-plugin:assembleRelease`、`copyApk`）与安装步骤
+- 构建命令（`./gradlew :goproxy-plugin:assembleRelease`）与安装步骤
 - 注意事项：包名约定、线程安全、混淆陷阱、播放器数字 ID 固定分配等
+
