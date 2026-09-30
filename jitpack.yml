@@ -1,16 +1,2 @@
 jdk:
   - openjdk17
-
-install:
-  # AGP 8.x 必须运行在 JDK 17（上面 jdk 已指定）。
-  # 但 JitPack 自带的旧版 sdkmanager 依赖 javax.xml.bind（JAXB），
-  # 而 JAXB 自 JDK 11 起已被移除，在 JDK 17 下会报：
-  #   NoClassDefFoundError: javax/xml/bind/annotation/XmlSchema
-  # 因此这里改为下载与 JDK 17 兼容的新版 cmdline-tools（已不依赖 JAXB），
-  # 用它来安装 Android 平台与构建工具，彻底绕开旧版 sdkmanager 的崩溃。
-  - export ANDROID_SDK_ROOT=$ANDROID_HOME
-  - export ANDROID_HOME=$ANDROID_HOME
-  - curl -fsSL -o /tmp/cmdline-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
-  - mkdir -p /tmp/ct && (command -v unzip >/dev/null 2>&1 && unzip -o /tmp/cmdline-tools.zip -d /tmp/ct || (cd /tmp/ct && jar xf /tmp/cmdline-tools.zip))
-  - yes | /tmp/ct/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME --licenses
-  - yes | /tmp/ct/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME "platforms;android-35" "build-tools;35.0.0"
