@@ -1,0 +1,6 @@
+jdk:
+  - openjdk17
+
+install:
+  # AGP 8.x 需要 JDK 17（上面 jdk 已指定）；compileSdk 35 需要确保对应 Android 平台已安装
+  - yes | sdkmanager "platforms;android-35" "build-tools;35.0.0"

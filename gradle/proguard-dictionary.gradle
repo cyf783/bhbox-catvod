@@ -1,0 +1,39 @@
+// 零依赖随机混淆字典生成（取代 proguard-dictionaries-generator 第三方插件）
+// 用法：在启用 minify 的模块 build.gradle 中 apply from: "$rootDir/gradle/proguard-dictionary.gradle"
+// 产出：build/proguard-dictionaries/{class,package,obfuscation}-dictionary.txt
+// 与模块 proguard-rules.pro 中已有的 -obfuscationdictionary 等规则配合，自动挂接到 minify<Variant>WithR8 任务
+
+def dictionaryDir = file("$buildDir/proguard-dictionaries")
+def lineCount = 50000
+def minLineLength = 3
+def maxLineLength = 7
+
+tasks.register('generateProguardDictionary') {
+    outputs.dir(dictionaryDir)
+    doLast {
+        dictionaryDir.mkdirs()
+        def random = new Random()
+        // 采用易混淆字形字符集（O/0/o、l/1/I、B/8 等），增强反编译可读性干扰
+        def chars = ['O', '0', 'o', 'l', '1', 'I', 'Z', '2', 'S', '5', 'B', '8', 'G', '6']
+        ['class-dictionary.txt', 'package-dictionary.txt', 'obfuscation-dictionary.txt'].each { name ->
+            def f = new File(dictionaryDir, name)
+            def entries = new HashSet<String>()
+            while (entries.size() < lineCount) {
+                def len = minLineLength + random.nextInt(maxLineLength - minLineLength + 1)
+                def sb = new StringBuilder()
+                for (int j = 0; j < len; j++) {
+                    sb.append(chars[random.nextInt(chars.size())])
+                }
+                entries.add(sb.toString())
+            }
+            f.withWriter { w ->
+                entries.each { w.println(it) }
+            }
+        }
+    }
+}
+
+// 仅 minifyEnabled 的变体会注册 minify<Variant>WithR8 任务，惰性匹配保证未创建时不报错
+tasks.matching { it.name.startsWith('minify') && it.name.endsWith('WithR8') }.configureEach {
+    dependsOn 'generateProguardDictionary'
+}

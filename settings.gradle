@@ -1,0 +1,27 @@
+pluginManagement {
+    repositories {
+        maven { url 'https://mirrors.huaweicloud.com/repository/maven/' }
+        maven { url 'https://mirrors.huaweicloud.com/repository/google/' }
+        maven { url 'https://mirrors.huaweicloud.com/repository/gradle-plugin/' }
+        maven { url 'https://maven.pkg.jetbrains.space/public/p/compose/dev' }
+        gradlePluginPortal()
+        mavenCentral()
+        google()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        maven { url 'https://jitpack.io' }
+        maven { url "https://maven.aliyun.com/repository/releases" }
+        maven { url 'https://mirrors.huaweicloud.com/repository/central/' }
+        maven { url 'https://mirrors.huaweicloud.com/repository/maven/' }
+        maven { url 'https://mirrors.huaweicloud.com/repository/google/' }
+        google()
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
+rootProject.name = "catvod"
