@@ -12,4 +12,5 @@ install:
   - export ANDROID_HOME=$ANDROID_HOME
   - curl -fsSL -o /tmp/cmdline-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
   - mkdir -p /tmp/ct && (command -v unzip >/dev/null 2>&1 && unzip -o /tmp/cmdline-tools.zip -d /tmp/ct || (cd /tmp/ct && jar xf /tmp/cmdline-tools.zip))
+  - yes | /tmp/ct/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME --licenses
   - yes | /tmp/ct/cmdline-tools/bin/sdkmanager --sdk_root=$ANDROID_HOME "platforms;android-35" "build-tools;35.0.0"
