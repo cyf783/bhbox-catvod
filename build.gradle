@@ -53,7 +53,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.cyf783'
                 artifactId = 'bhbox-catvod'
-                version = '1.0.5'
+                version = '1.0.6'
             }
         }
     }

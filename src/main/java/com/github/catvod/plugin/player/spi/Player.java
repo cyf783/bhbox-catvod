@@ -98,6 +98,22 @@ public abstract class Player {
     /** 获取当前 TCP 网络速率（字节/秒），无数据时返回 0 */
     public abstract long getTcpSpeed();
 
+    // ── 下一集首屏数据预读（默认空实现，不支持的内核自然走原链路）──
+    /** 是否支持下一集数据预读 */
+    public boolean isPreloadSupported() { return false; }
+
+    /**
+     * 预读下一集首屏数据到本地缓存（异步，不阻塞播放）。
+     * 实现须保证与正式播放使用同一缓存 key 规则，切集后才能命中。
+     * positionMs 为预计起播位置（历史进度/跳过片头取大者，毫秒）：预读应覆盖该位置附近
+     * 的数据；HLS 可按播放时间定位分片，progressive 容器无字节偏移索引时位置大于 0 可不预读。
+     * 重复调用以最后一次为准；实现方自行守卫单任务在途。
+     */
+    public void preloadNext(String url, Map<String, String> headers, long positionMs) { }
+
+    /** 取消在途预读任务（换集/退出播放页时调用）；已写入缓存的数据保留，由缓存自身的淘汰策略管理 */
+    public void clearPreload() { }
+
     // ── 事件回调 ──
     protected EventListener mEventListener;
 
